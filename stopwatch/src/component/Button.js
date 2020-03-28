@@ -18,10 +18,14 @@ PROCEDURE setTimerHandler
         start timer
         increase counter by 1
 END
-PROCEDURE stopTimerHandler
-    call clearTimer
-    counter<-0
-    DOM element<-counter
+PROCEDURE pauseTimerHandler
+    IF timerToggleFlag is true THEN
+        clear timer
+        set timerToggleFlag to false
+    ELSE
+        start timer
+        increase counter by 1
+        set timerToggleFlag to true
 END PROCEDURE
 END Class
 Export button 
@@ -52,11 +56,13 @@ class ParentButton extends React.Component {
     handleTimer(){
         console.log('this.timer',this.timer);
         if(this.timer){
+            //clears timer if exists and adds timer
             clearInterval(this.timer);
             this.timer = setInterval(() => this.setState({
               value: this.state.value+1
             }), 300);
         }else{
+            //adds timer
             this.timer = setInterval(() => this.setState({
                 value: this.state.value+1
               }), 300);  
@@ -64,6 +70,7 @@ class ParentButton extends React.Component {
         
         } 
     handlePause(){
+        //toggles timer functionality
         if(this.state.timerToggleFlag===true){
             clearInterval(this.timer);
             this.setState({
