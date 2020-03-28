@@ -39,15 +39,17 @@ class ParentButton extends React.Component {
         this.state={
             value:0,
             timerToggleFlag:true
-            
-        }
+         }
+         this.timer =[];
         this.handleReset=this.handleReset.bind(this);
         this.handleTimer=this.handleTimer.bind(this);
         this.handlePause=this.handlePause.bind(this);
 
     }
     handleReset(){
-          clearInterval(this.timer);
+        for(let i=0;i<this.timer.length;i++){
+            clearInterval(this.timer[i]);
+        }
           this.setState({
             value: 0
           });
@@ -57,29 +59,35 @@ class ParentButton extends React.Component {
         console.log('this.timer',this.timer);
         if(this.timer){
             //clears timer if exists and adds timer
-            clearInterval(this.timer);
-            this.timer = setInterval(() => this.setState({
+            for(let i=0;i<this.timer.length;i++){
+                clearInterval(this.timer[i]);
+            }
+            this.timer.push(setInterval(() => this.setState({
               value: this.state.value+1
-            }), 300);
+            }), 300));
         }else{
             //adds timer
-            this.timer = setInterval(() => this.setState({
+            this.timer.push(setInterval(() => this.setState({
                 value: this.state.value+1
-              }), 300);  
+              }), 300));  
             }
         
         } 
     handlePause(){
         //toggles timer functionality
-        if(this.state.timerToggleFlag===true){
-            clearInterval(this.timer);
+        if(this.state.timerToggleFlag==true){
+            console.log('inside pause true');
+            for(let i=0;i<this.timer.length;i++){
+                clearInterval(this.timer[i]);
+            }
             this.setState({
                 timerToggleFlag: false
               });            
         }else{
-                this.timer = setInterval(() => this.setState({
+                console.log('inside pause false');
+                this.timer.push(setInterval(() => this.setState({
                 value: this.state.value+1
-              }), 300);
+              }), 300));
               this.setState({
                 timerToggleFlag: true
               });              
