@@ -10,12 +10,13 @@ PROCEDURE handleReset
     clear the timer
 END
 PROCEDURE setTimerHandler
-    call setInterval 
-        Procedure timer
-            WHILE setTimerFlag true THEN
-                counter++
-                DOM element<-counter
-            END WHILE
+    IF timer exists THEN
+        clear timer
+        restart the timer // if we dont clear existing timer and start a new timer,pause and reset are not responding
+        increase counter by 1
+    ELSE
+        start timer
+        increase counter by 1
 END
 PROCEDURE stopTimerHandler
     call clearTimer
