@@ -32,7 +32,7 @@ class ParentButton extends React.Component {
         super(props);
         this.state={
             value:0,
-            timerFlag:false
+            timerToggleFlag:true
             
         }
         this.handleReset=this.handleReset.bind(this);
@@ -45,9 +45,7 @@ class ParentButton extends React.Component {
           this.setState({
             value: 0
           });
-          this.setState({
-            timerFlag: true
-          });
+          
         }
     handleTimer(){
         console.log('this.timer',this.timer);
@@ -60,14 +58,23 @@ class ParentButton extends React.Component {
             this.timer = setInterval(() => this.setState({
                 value: this.state.value+1
               }), 300);  
-                this.setState({
-                timerFlag: true
-              });
             }
         
         } 
     handlePause(){
-        clearInterval(this.timer);
+        if(this.state.timerToggleFlag===true){
+            clearInterval(this.timer);
+            this.setState({
+                timerToggleFlag: false
+              });            
+        }else{
+                this.timer = setInterval(() => this.setState({
+                value: this.state.value+1
+              }), 300);
+              this.setState({
+                timerToggleFlag: true
+              });              
+        }
     }  
     render() {
      
