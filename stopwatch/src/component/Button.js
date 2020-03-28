@@ -41,13 +41,13 @@ class ParentButton extends React.Component {
 
     }
     handleReset(){
-         this.setState({
+          clearInterval(this.timer);
+          this.setState({
             value: 0
           });
-          clearInterval(this.timer);
-          this.timer = setInterval(() => this.setState({
-            value: this.state.value+1
-          }), 300);
+          this.setState({
+            timerFlag: true
+          });
         }
     handleTimer(){
         console.log('this.timer',this.timer);
