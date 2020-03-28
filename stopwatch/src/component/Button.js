@@ -3,10 +3,11 @@ pseudocode
 class button extends component
 set default values
 counter<-0
+timerToggleFlag<-true
 initialise buttons and bind methods handleReset,handleTimer and handleStop
 PROCEDURE handleReset
     counter<-0
-    trigger EVENT SetTimer
+    clear the timer
 END
 PROCEDURE setTimerHandler
     call setInterval 
