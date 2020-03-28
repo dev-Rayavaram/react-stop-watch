@@ -3,32 +3,13 @@ pseudocode
 class button extends component
 set default values
 counter<-0
-setTimerFlag<-false
-this.state.buttonName <-name
-this.state.handleEvent<-onButtonHandler
-PROCEDURE onButtonHandler
-    IF onButtonHandler.value equals Reset THEN
-        setTimerFlag<-true
-        call resetHandler
-        update DOM element counter
-    ELSE IF onButtonHandler.value equals SetTimer THEN
-        setTimerFlag<-true
-        call setTimerHandler
-        update DOM element counter
- 
-    ELSE IF onButtonHandler.value equals Stop THEN
-        setTimerFlag<-false
-        call stopTimerHandler
-        update DOM element counter
-    END IF
-END
-PROCEDURE resetHandler
+initialise buttons and bind methods handleReset,handleTimer and handleStop
+PROCEDURE handleReset
     counter<-0
     trigger EVENT SetTimer
 END
 PROCEDURE setTimerHandler
-    call setTimeout 
-    pass timer, timerNum
+    call setInterval 
         Procedure timer
             WHILE setTimerFlag true THEN
                 counter++
@@ -36,7 +17,7 @@ PROCEDURE setTimerHandler
             END WHILE
 END
 PROCEDURE stopTimerHandler
-    call removeTimeout
+    call clearTimer
     counter<-0
     DOM element<-counter
 END PROCEDURE
@@ -50,27 +31,46 @@ class ParentButton extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            value:1,
+            value:0,
+            timerFlag:false
             
         }
         this.handleReset=this.handleReset.bind(this);
         this.handleTimer=this.handleTimer.bind(this);
-        this.handleStop=this.handleStop.bind(this);
+        this.handlePause=this.handlePause.bind(this);
 
     }
     handleReset(){
-        alert("inside Reset");
-    }
-    handleTimer(){
-        
-           this.timer = setInterval(() => this.setState({
+         this.setState({
+            value: 0
+          });
+          clearInterval(this.timer);
+          this.timer = setInterval(() => this.setState({
             value: this.state.value+1
           }), 300);
+        }
+    handleTimer(){
+        console.log('this.timer',this.timer);
+        if(this.timer){
+            clearInterval(this.timer);
+            this.timer = setInterval(() => this.setState({
+              value: this.state.value+1
+            }), 300);
+        }else{
+            this.timer = setInterval(() => this.setState({
+                value: this.state.value+1
+              }), 300);  
+                this.setState({
+                timerFlag: true
+              });
+            }
+        
         } 
-    handleStop(){
+    handlePause(){
         clearInterval(this.timer);
     }  
     render() {
+     
       return(
         <div className='card'>            
             <div  className='input'>
@@ -85,7 +85,7 @@ class ParentButton extends React.Component {
                   </button>
              </div>
             <div className='input'>
-                <button className='button' onClick={this.handleStop}>Stop
+                <button className='button' onClick={this.handlePause}>Pause
                 </button>
             </div>
         </div>
