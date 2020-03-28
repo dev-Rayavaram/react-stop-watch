@@ -1,25 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
+import React from 'react';
+import ParentButton from './component/Button.js'
+
+import './App.css';
+/**
+ * import button
+ * 
+ */
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+     /*
+      Instantiate button1
+        button1 value<-Reset
+        button on click <- call onButtonHandler
+      Instantiate button2
+        button2 value<-SetTimer
+        button2 on click<- call onButtonHandler  
+      Instantiate button3
+        button3 value<-Stop
+        button3 on click<- call onButtonHandler 
+    */
+
+    <React.Fragment>
+
+      <div className="App">
+        <ParentButton/>
+      </div>
+
+
+    </React.Fragment>  
+   
   );
 }
 
